@@ -23,7 +23,7 @@ class CrontabBase(BotPlugin):
     def activate(self):
         """Call poll_crontab every minutes.
         """
-        super(Crontab, self).activate()
+        super(CrontabBase, self).activate()
         self.register_jobs()
         self.start_poller(60, self.poll_crontab)
 
@@ -37,3 +37,7 @@ class CrontabBase(BotPlugin):
         """
         self.log.debug('Run polling for crontab')
         polled_time = datetime.now(TZ)
+        self.run_jobs(polled_time)
+
+    def run_jobs(self, polled_time):
+        pass
