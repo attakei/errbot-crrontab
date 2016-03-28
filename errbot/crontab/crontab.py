@@ -16,8 +16,6 @@ else:
 class CrontabBase(BotPlugin):
     cronjob_list = []
 
-    cronjob_config = []
-
     """Crontab polling plugin for Errbot
     """
     def activate(self):
@@ -40,4 +38,7 @@ class CrontabBase(BotPlugin):
         self.run_jobs(polled_time)
 
     def run_jobs(self, polled_time):
-        pass
+        for cronjob in self.cronjob_list:
+            if cronjob['trigger'](polled_time):
+                user = self.build_identifier(cronjob['to'])
+                self.send(user, cronjob['message'])
